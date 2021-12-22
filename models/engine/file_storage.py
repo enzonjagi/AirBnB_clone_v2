@@ -52,6 +52,6 @@ class FileStorage:
     def delete(self, obj):
         if (obj is None):
             return
-        for k, v in self.all():
+        for k, v in FileStorage.__objects.items():
             if (obj == k):
-                del self.all()[k]
+                del FileStorage.__objects[k]
