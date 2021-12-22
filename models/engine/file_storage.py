@@ -50,7 +50,7 @@ class FileStorage:
             pass
 
     def delete(self, obj):
-        if (obj != None):
+        if (obj is not None):
             for k, v in self.all():
                 if (obj == k):
                     del self.all()[k]
