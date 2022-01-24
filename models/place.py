@@ -24,7 +24,7 @@ if storage_type == 'db':
 
 
 class Place(BaseModel, Base):
-    """ A place to stay """
+    """ Lets create a place table """
     __tablename__ = 'places'
     if storage_type == 'db':
         city_id = Column(String(60), ForeignKey('cities.id'), nullable=False)
@@ -57,7 +57,7 @@ class Place(BaseModel, Base):
         @property
         def reviews(self):
             ''' returns list of review instances with place_id
-                equals to the cyrrent Place.id
+                equal to the current Place.id
                 FileStorage relationship between Place and Review
             '''
             from models import storage
