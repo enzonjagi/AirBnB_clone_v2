@@ -1,10 +1,13 @@
 #!/usr/bin/python3
 """ State Module for HBNB project """
 from os import get_terminal_size
+from turtle import back
 from models.base_model import BaseModel
 from sqlalchemy import create_engine, Column, Integer, String
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import relationship, sessionmaker
+from models import storage_type
+from models.city import City
 
 Base = declarative_base()
 
@@ -12,12 +15,25 @@ Base = declarative_base()
 class State(BaseModel, Base):
     """ State class """
     __tablename__ = 'states'
-    name = Column(String(128), nullable=False)
-    cities = relationship('City')
+    if storage_type == 'db':
+        name = Column(String(128), nullable=False)
+        cities = relationship(
+            "City", back_populates="states",
+            cascade='all, delete, delete-orphan')
 
-    def get_cities(self):
-        '''
-        a getter attribute to return list if City instances
-        with state_id equal to the current State.id
-        '''
-        return
+    else:
+        name = ''
+
+        @property
+        def cities(self):
+            '''returns the list of City instances with state_id
+                equals the current State.id
+                FileStorage relationship between State and City
+            '''
+            from models import storage
+            related_cities = []
+            cities = storage.all(City)
+            for city in cities.values():
+                if city.state_id == self.id:
+                    related_cities.append(city)
+            return related_cities
