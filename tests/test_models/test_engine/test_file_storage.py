@@ -107,3 +107,11 @@ class test_fileStorage(unittest.TestCase):
         from models.engine.file_storage import FileStorage
         print(type(storage))
         self.assertEqual(type(storage), FileStorage)
+
+    def test_delete(self):
+        """ Check if object is deleted"""
+        new = BaseModel()
+        storage.save()
+        self.assertTrue(os.path.exists('file.json'))
+        storage.delete(new)
+        self.assertTrue(os.path.exists('file.json'))
