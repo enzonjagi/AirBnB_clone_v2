@@ -7,6 +7,7 @@ from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import relationship, sessionmaker
 from models.state import State
 from models import storage_type
+from projects.AirBnB_clone_v2.models import place
 
 
 class City(BaseModel):
@@ -15,6 +16,9 @@ class City(BaseModel):
     if storage_type == 'db':
         name = Column(String(128), nullable=False)
         state_id = Column(String(60), nullable=False, ForeignKey='states.id')
+        places = relationship(
+            "Places", backref="cities",
+            cascade="all, delete, delet-orphan")
     # state = relationship("State", back_populates="cities")
     else:
         name = ''
