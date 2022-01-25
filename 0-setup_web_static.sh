@@ -14,7 +14,7 @@ then
     sudo mkdir /data/web_static/releases/test/
 fi
 # change ownership of data folder to ubuntu ser and group
-sudo chown ubuntu:ubuntu /data/
+sudo chown ubuntu:ubuntu /data/*
 # simple html file for configuration purposes
 echo "nginx set!!" >> /data/web_static/releases/test/index.html
 # check if symbolink link exists and delete it then install
