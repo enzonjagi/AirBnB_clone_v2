@@ -75,6 +75,9 @@ def do_deploy(archive_path):
 
 
 def deploy():
+    '''Perform a full deploymeny by calling
+    do_pack() and do_deploy()
+    '''
     file = do_pack()
     if file is None:
         return False
