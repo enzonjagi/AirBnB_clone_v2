@@ -11,7 +11,7 @@ env.hosts = ['localhost']
 def do_pack():
     # add files from web_static to tgz archive
     # all archives are stored in /versions in the archive
-    run("mkdir /versions")
+    run("mkdir versions/")
     # name of archive to follow format
     # web_static_<year><month><day><hour><minute><secon\d>.tgz
     timestamp = dt.now().strftime("%Y_%m_%d_%H_%M_%S")
