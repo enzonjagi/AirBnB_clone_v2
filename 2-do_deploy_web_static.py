@@ -22,28 +22,28 @@ def do_deploy(archive_path):
         return(False)
     # upload archive to /tmp/ directory
     try:
-        files = archive_path.split("/")[-1].split(".")[0]
-        put("archive_path", "/tmp/", use_sudo=True)
-        # uncompress the archive to /data/web_static/releases/ directory
-        sudo("mkdir -p /data/web_static/releases/{}".format(files))
-        sudo("tar -xzf /tmp/{}.tgz /data/web_static/releasese/{}"
-             .format(files, files)
-             )
-        # Delete archive from web server
-        sudo("rm -rf /tmp/{}.tgz".format(files))
+        file_name = archive_path.split("/")[-1].split(".")[0]
+        put(archive_path, "/tmp/")
 
-        # move the extracted contents to /releases/*
-        sudo(('mv /data/web_static/releases/{}/web_static/* ' +
-              '/data/web_static/releases/{}/').format(files, files))
-        # delete the folder
-        sudo(('rm -rf /data/web_static/releases/{}/web_static/*'.
-              format(files)))
-        # delete the symbolic link
-        sudo("rm -rf /data/web_static/current")
+        run("mkdir -p /data/web_static/releases/{}".format(file_name))
 
-        # create a new sym link to the new code version
-        sudo('ln -s /data/web_static/releases/{}/' +
-             ' /data/web_static/current {}'.format(files))
+        run("tar -xzf /tmp/{}.tgz -C /data/web_static/releases/{}/".
+            format(file_name, file_name))
+
+        run('rm -rf /tmp/{}.tgz'.format(file_name))
+
+        run(('mv /data/web_static/releases/{}/web_static/* ' +
+             '/data/web_static/releases/{}/').
+            format(file_name, file_name))
+
+        run('rm -rf /data/web_static/releases/{}/web_static'.
+            format(file_name))
+
+        run('rm -rf /data/web_static/current')
+
+        run(('ln -s /data/web_static/releases/{}/' +
+             ' /data/web_static/current').
+            format(file_name))
 
         return(True)
     except Exception:
