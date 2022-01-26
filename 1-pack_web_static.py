@@ -9,6 +9,7 @@ env.hosts = ['localhost']
 
 
 def do_pack():
+    '''packs web_static into a .tgz file'''
     # add files from web_static to tgz archive
     # all archives are stored in /versions in the archive
     run("mkdir versions/")
