@@ -18,7 +18,7 @@ def do_pack():
     timestamp = datetime.strftime(datetime.now(), "%Y%m%d%H%M%S")
     name = ("versions/web_static_{}.tgz".
             format(timestamp))
-    result = local("tar -cvzf {} /web_static".
+    result = local("tar -cvzf {} web_static".
                    format(name), capture=True)
     # returns correctly generated archive on success
     if result.succeeded:
