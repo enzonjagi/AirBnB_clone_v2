@@ -17,7 +17,7 @@ def do_pack():
     # web_static_<year><month><day><hour><minute><secon\d>.tgz
     timestamp = dt.now().strftime("%Y_%m_%d_%H_%M_%S")
     name = "web_static_" + timestamp + ".tgz"
-    result = run("tar -czvf /versions/name.tgz /web_static")
+    result = run("tar -cvzf versions/%s.tgz /web_static", name)
     # returns correctly generated archive on success
     if result.succeeded:
         return (result)
