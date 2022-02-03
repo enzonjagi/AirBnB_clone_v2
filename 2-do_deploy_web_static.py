@@ -20,30 +20,36 @@ def do_deploy(archive_path):
     if not exists(archive_path):
         return(False)
     # upload archive to /tmp/ directory
-    try:
-        file_ne = archive_path.split("/")[-1].split(".")[0]
-        put(archive_path, "/tmp/")
+    file = archive_path.split("/")[-1]
+    name = file.split(".")[0]
 
-        sudo("mkdir -p /data/web_static/releases/{}".format(file_ne))
+    if put(archive_path, "/tmp/{}".format(file)).failed is True:
+        return False
+    if run("rm -rf /data/web_static/releases/{}/".
+           format(name)).failed is True:
+        return False
+    if run("mkdir -p /data/web_static/releases/{}/".
+           format(name)).failed is True:
+        return False
+    if run("tar -xzf /tmp/{} -C /data/web_static/releases/{}/".
+           format(file, name)).failed is True:
+        return False
+    if run("rm /tmp/{}".format(file)).failed is True:
+        return False
+    if run("mv /data/web_static/releases/{}/web_static/* "
+           "/data/web_static/releases/{}/".format(name, name)).failed is True:
+        return False
+    if run("rm -rf /data/web_static/releases/{}/web_static".
+           format(name)).failed is True:
+        return False
+    if run("rm -rf /data/web_static/current").failed is True:
+        return False
+    if run("ln -s /data/web_static/releases/{}/ /data/web_static/current".
+           format(name)).failed is True:
+        return False
+    return True
 
-        sudo("tar -xzf /tmp/{}.tgz -C /data/web_static/releases/{}/".
-             format(file_ne, file_ne))
 
-        sudo('rm -rf /tmp/{}.tgz'.format(file_ne))
-
-        sudo(('mv /data/web_static/releases/{}/web_static/* ' +
-             '/data/web_static/releases/{}/').
-             format(file_ne, file_ne))
-
-        sudo('rm -rf /data/web_static/releases/{}/web_static'.
-             format(file_ne))
-
-        sudo('rm -rf /data/web_static/current')
-
-        sudo(('ln -s /data/web_static/releases/{}/' +
-             ' /data/web_static/current').
-             format(file_ne))
-
-        return(True)
-    except Exception:
-        return (False)
+if __name__ == '__main__':
+    archive_path = "versions/web_static_20170315015620.tgz"
+    do_deploy(archive_path=archive_path)
