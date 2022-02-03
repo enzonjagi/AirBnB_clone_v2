@@ -48,7 +48,7 @@ def number_route(n):
 def number_template_route(n):
     '''Sorts the /number_template/<n> route'''
     value = "Number: {}".format(n)
-    return render_template('5-templates.html', value=value)
+    return render_template('5-number.html', value=value)
 
 
 if __name__ == '__main__':
