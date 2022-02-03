@@ -22,7 +22,7 @@ def hbnb_route():
 def c_route(text):
     '''Sorts the /c/<text> route'''
     text = text.replace("_", " ")
-    return text
+    return "C {}".format(text)
 
 
 if __name__ == '__main__':
