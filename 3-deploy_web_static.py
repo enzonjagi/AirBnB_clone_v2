@@ -13,7 +13,7 @@ from os.path import exists
 
 
 # set the environment hosts/servers for fabfile to run on
-env.hosts = ['35.231.58.85', '34.138.244.202']
+env.hosts = ['44.200.142.218', '34.138.244.202']
 # user for both of the servers
 env.user = "ubuntu"
 
