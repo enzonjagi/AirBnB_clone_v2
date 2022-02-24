@@ -1,25 +1,24 @@
-#!/usr/bin/python3
-""" City Module for HBNB project """
-from sqlalchemy.sql.schema import ForeignKey
-from models.base_model import BaseModel
-from sqlalchemy import create_engine, Column, Integer, String
-from sqlalchemy.ext.declarative import declarative_base
-from sqlalchemy.orm import relationship, sessionmaker
-from models.state import State
-from models import storage_type
-from projects.AirBnB_clone_v2.models import place
+#!/usr/bin/python
+""" holds class City"""
+import models
+from models.base_model import BaseModel, Base
+from os import getenv
+import sqlalchemy
+from sqlalchemy import Column, String, ForeignKey
+from sqlalchemy.orm import relationship
 
 
-class City(BaseModel):
-    """ The city class, contains state ID and name """
-    __tablename__ = 'cities'
-    if storage_type == 'db':
+class City(BaseModel, Base):
+    """Representation of city """
+    if models.storage_t == "db":
+        __tablename__ = 'cities'
+        state_id = Column(String(60), ForeignKey('states.id'), nullable=False)
         name = Column(String(128), nullable=False)
-        state_id = Column(String(60), nullable=False, ForeignKey='states.id')
-        places = relationship(
-            "Places", backref="cities",
-            cascade="all, delete, delet-orphan")
-    # state = relationship("State", back_populates="cities")
+        places = relationship("Place", backref="cities")
     else:
-        name = ''
-        state_id = ''
+        state_id = ""
+        name = ""
+
+    def __init__(self, *args, **kwargs):
+        """initializes city"""
+        super().__init__(*args, **kwargs)
